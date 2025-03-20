@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Proyecto.Models.PresupuestoMensual>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Presupuestos Mensuales";
+}
+
+<h2>Presupuestos Mensuales</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mes</th>
+            <th>Año</th>
+            <th>Monto Presupuestado</th>
+            <th>Gastos Reales</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var presupuesto in Model)
+        {
+            <tr>
+                <td>@presupuesto.Mes</td>
+                <td>@presupuesto.Año</td>
+                <td>@presupuesto.MontoPresupuesto.ToString("C")</td>
+                <td>@presupuesto.GastosReales.ToString("C")</td>
+                <td>
+                    @if (presupuesto.GastosReales > presupuesto.MontoPresupuesto)
+                    {
+                        <span class="text-danger">Excedido</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Dentro del Presupuesto</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

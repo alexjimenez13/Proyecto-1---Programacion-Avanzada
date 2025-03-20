@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutIngreso.cshtml";
+    ViewBag.Title = "Restablecer Contraseña";
+}
+
+<h2>Restablecer contraseña</h2>
+
+<form method="post" action="@Url.Action("Restablecer", "Usuario")">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="token" value="@ViewBag.Token" />
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h4>Restablecer Contraseña</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="CONTRASENA" class="form-label">Nueva contraseña</label>
+                            <input type="password" class="form-control" id="CONTRASENA" name="CONTRASENA" placeholder="Ingresa tu nueva contraseña" required />
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Restablecer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@Html.ValidationSummary(true)
+
+
+@*@{
+        Layout = "~/Views/Shared/_LayoutIngreso.cshtml";
+        ViewBag.Title = "Restablecer Contraseña";
+    }
+
+    <h2>Restablecer contraseña</h2>
+
+    <form method="post" action="@Url.Action("Restablecer", "Usuario")">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="token" value="@ViewBag.Token" />
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-dark text-white text-center">
+                            <h4>Restablecer Contraseña</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="nuevaContraseña" class="form-label">Nueva contraseña</label>
+                                <input type="password" class="form-control" id="nuevaContraseña" name="nuevaContraseña" placeholder="Ingresa tu nueva contraseña" required />
+                            </div>
+                            <button type="submit" class="btn btn-dark w-100">Restablecer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    @Html.ValidationSummary(true)*@
+
+
+@*@{
+        Layout = "~/Views/Shared/_LayoutIngreso.cshtml";
+        ViewBag.Title = "Restablecer Contraseña";
+    }
+
+    <h2>Restablecer contraseña</h2>
+
+    <form method="post" action="@Url.Action("Restablecer", "Usuario")">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="token" value="@ViewBag.Token" />
+
+        <div id="react-reset-password"></div>
+    </form>
+
+    @Html.ValidationSummary(true)
+
+    @section Scripts {
+        <script type="text/babel">
+            function ResetPasswordForm() {
+              return (
+                <div className="container mt-5">
+                  <div className="row justify-content-center">
+                    <div className="col-md-6">
+                      <div className="card shadow">
+                        <div className="card-header bg-dark text-white text-center">
+                          <h4>Restablecer Contraseña</h4>
+                        </div>
+                        <div className="card-body">
+                          <div className="mb-3">
+                            <label htmlFor="nuevaContraseña" className="form-label">
+                              Nueva contraseña
+                            </label>
+                            <input
+                              type="password"
+                              className="form-control"
+                              id="nuevaContraseña"
+                              name="nuevaContraseña"
+                              placeholder="Ingresa tu nueva contraseña"
+                              required
+                            />
+                          </div>
+                          <button type="submit" className="btn btn-dark w-100">
+                            Restablecer
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            ReactDOM.render(<ResetPasswordForm />, document.getElementById("react-reset-password"));
+        </script>
+    }*@

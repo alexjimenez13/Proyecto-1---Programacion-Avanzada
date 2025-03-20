@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - Bienvenido</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <!-- Barra superior -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <!-- Botón Hamburguesa para abrir el offcanvas -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <a class="nav-link text-danger" href="@Url.Action("Logout", "Usuario")">
+                Cerrar Sesión
+            </a>
+            <!-- Marca o nombre de la app -->
+            @*<a class="navbar-brand" href="@Url.Action("Index", "Home")">Mis Finanzas</a>*@
+
+        </div>
+    </nav>
+
+    <!-- Offcanvas (Menú Lateral) -->
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Mis finanzas</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav nav-pills flex-column">
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white" href="@Url.Action("Index", "Home")">
+                        Inicio
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white" href="@Url.Action("Transacciones", "Transaccion")">
+                        Registrar transacciones
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white" href="@Url.Action("VerTransacciones", "Transaccion")">
+                        Ver mis transacciones
+                    </a>
+                </li>
+
+                @*<li class="nav-item">
+            <a class="nav-link text-danger" href="@Url.Action("Logout", "Usuario")">
+                Cerrar Sesión
+            </a>
+        </li>*@
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="container mt-3">
+        @RenderBody()
+        <hr />
+        <footer>
+            <!-- Tu footer -->
+        </footer>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

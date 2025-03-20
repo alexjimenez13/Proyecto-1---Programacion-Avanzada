@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Proyecto.Models.MetaFinanciera>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Metas Financieras";
+}
+
+<h2>Metas Financieras</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Descripción</th>
+            <th>Monto Objetivo</th>
+            <th>Progreso Actual</th>
+            <th>Fecha Límite</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var meta in Model)
+        {
+            <tr>
+                <td>@meta.Descripcion</td>
+                <td>@meta.MontoObjetivo.ToString("C")</td>
+                <td>@meta.ProgresoActual.ToString("C")</td>
+                <td>@meta.FechaLimite.ToShortDateString()</td>
+                <td>
+                    @if (meta.Alcanzada)
+                    {
+                        <span class="text-success">Alcanzada</span>
+                    }
+                    else
+                    {
+                        <span class="text-warning">En progreso</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
