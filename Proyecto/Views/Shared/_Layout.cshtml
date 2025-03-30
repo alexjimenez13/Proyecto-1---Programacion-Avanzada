@@ -6,28 +6,55 @@
     <title>@ViewBag.Title - Bienvenido</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
+
+    <!-- Estilos personalizados para botones de submenú -->
+    <style>
+        /* Botón que activa el submenú */
+        .submenu-btn {
+            background-color: #ffc107; /* Color distinto (amarillo) */
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+            .submenu-btn:hover, .submenu-btn:focus {
+                background-color: #e0a800;
+                color: #000;
+            }
+        /* Enlaces dentro del submenú */
+        .submenu-link {
+            background-color: #fd7e14; /* Otro color (naranja) */
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+            .submenu-link:hover, .submenu-link:focus {
+                background-color: #e96b0c;
+                color: #fff;
+            }
+    </style>
 </head>
 <body>
     <!-- Barra superior -->
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-
-            <!-- Botón Hamburguesa para abrir el offcanvas -->
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-
             <a class="nav-link text-danger" href="@Url.Action("Logout", "Usuario")">
                 Cerrar Sesión
             </a>
-            <!-- Marca o nombre de la app -->
-            @*<a class="navbar-brand" href="@Url.Action("Index", "Home")">Mis Finanzas</a>*@
-
         </div>
     </nav>
 
-    <!-- Offcanvas (Menú Lateral) -->
+    <!-- Menú Lateral -->
     <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Mis finanzas</h5>
@@ -35,30 +62,62 @@
         </div>
         <div class="offcanvas-body">
             <ul class="nav nav-pills flex-column">
-
+                <!-- Enlace a Inicio -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="@Url.Action("Index", "Home")">
-                        Inicio
-                    </a>
+                    <a class="nav-link text-white" href="@Url.Action("Dashboard", "Dashboard")">Mis finanzas</a>
                 </li>
 
+                <!-- Menú de Presupuestos con submenús -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="@Url.Action("Transacciones", "Transaccion")">
-                        Registrar transacciones
+                    <a class="submenu-btn" data-bs-toggle="collapse" href="#submenuPresupuestos" role="button" aria-expanded="false" aria-controls="submenuPresupuestos">
+                        Presupuestos
                     </a>
+                    <div class="collapse" id="submenuPresupuestos">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li>
+                                <a class="submenu-link" href="@Url.Action("Presupuesto", "Presupuesto")">Crear presupuesto</a>
+                            </li>                           
+                        </ul>
+                    </div>
                 </li>
 
+                <!-- Menú de Metas con submenús -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="@Url.Action("VerTransacciones", "Transaccion")">
-                        Ver mis transacciones
+                    <a class="submenu-btn" data-bs-toggle="collapse" href="#submenuMetas" role="button" aria-expanded="false" aria-controls="submenuMetas">
+                        Metas
                     </a>
+                    <div class="collapse" id="submenuMetas">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li>
+                                <a class="submenu-link" href="@Url.Action("RegistrarMeta", "Presupuesto")">Crear metas</a>
+                            </li>
+                            <li>
+                                <a class="submenu-link" href="@Url.Action("VerMetas", "Presupuesto")">Ver mis metas</a>
+                            </li>
+                            <li>
+                                <a class="submenu-link" href="@Url.Action("RegistrarAbono", "Presupuesto")">Registrar abono</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
-                @*<li class="nav-item">
-            <a class="nav-link text-danger" href="@Url.Action("Logout", "Usuario")">
-                Cerrar Sesión
-            </a>
-        </li>*@
+                <!-- Menú de Transacciones con submenús -->
+                <li class="nav-item mb-2">
+                    <a class="submenu-btn" data-bs-toggle="collapse" href="#submenuTransacciones" role="button" aria-expanded="false" aria-controls="submenuTransacciones">
+                        Transacciones
+                    </a>
+                    <div class="collapse" id="submenuTransacciones">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li>
+                                <a class="submenu-link" href="@Url.Action("Transacciones", "Transaccion")">Registrar transacciones</a>
+                            </li>
+                            <li>
+                                <a class="submenu-link" href="@Url.Action("VerTransacciones", "Transaccion")">Ver mis transacciones</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -67,9 +126,7 @@
     <main class="container mt-3">
         @RenderBody()
         <hr />
-        <footer>
-            <!-- Tu footer -->
-        </footer>
+        <footer></footer>
     </main>
 
     <!-- Bootstrap JS -->

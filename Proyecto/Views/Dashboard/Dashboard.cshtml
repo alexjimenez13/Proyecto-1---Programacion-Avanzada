@@ -1,0 +1,170 @@
+﻿@model Proyecto.Models.DashboardViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Panel General de Estadísticas";
+}
+
+<div class="container mt-4">
+    <h2>Estadísticas del Mes (@Model.FechaSeleccionada.ToString("MMMM yyyy"))</h2>
+
+    <!-- Resumen de Totales y comparación de presupuestos -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="alert @(Model.TotalGastos > Model.PresupuestoGastos ? "alert-danger" : "alert-success")">
+                @if (Model.TotalGastos > Model.PresupuestoGastos)
+                {
+                    <strong>¡Atención! Tus gastos(incluyendo abonos) superan lo presupuestado.</strong> 
+                    }
+                else
+                {
+            <strong>Bien hecho! Tus gastos están dentro del presupuesto.</strong>
+                    }
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Ingresos reales</th>
+                    <td>@Model.TotalIngresos.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Ingresos presupuestados</th>
+                    <td>@Model.PresupuestoIngresos.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Gastos reales<br />(Transacciones + Abonos)</th>
+                    <td>@Model.TotalGastos.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Gastos presupuestados</th>
+                    <td>@Model.PresupuestoGastos.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Balance (presupuestado - real)</th>
+                    <td>
+                        @{
+                            // Balance presupuestario: (Ingresos presupuestados - Gastos presupuestados)
+                            // Balance real: (Ingresos reales - Gastos reales)
+                            // La diferencia entre ambos:
+                            decimal balance = (Model.PresupuestoIngresos - Model.PresupuestoGastos) - (Model.TotalIngresos - Model.TotalGastos);
+                        }
+                        @balance.ToString("C")
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Gráfico Ingresos vs Gastos (Barras) -->
+        <div class="col-md-8">
+            <canvas id="chartGastosVsIngresos" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Gráfico de Gastos por Categoría (Pastel) -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <canvas id="chartGastosPorCategoria" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Tabla de Metas y Abonos -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Metas y Abonos</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Meta</th>
+                        <th>Monto Objetivo</th>
+                        <th>Fecha Cumplimiento</th>
+                        <th>Total Abonado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var meta in Model.Metas)
+                    {
+                        <tr>
+                            <td>@meta.TIPO_META</td>
+                            <td>@meta.MONTO_OBJETIVO.ToString("C")</td>
+                            <td>@meta.FECHA_CUMPLIMIENTO.ToShortDateString()</td>
+                            <td>
+                                @{
+                                    var totalAbonos = Model.Abonos
+                                        .Where(a => a.META_ID == meta.ID)
+                                        .Sum(a => a.MONTO);
+                                }
+                                @totalAbonos.ToString("C")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Incluir Chart.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gráfico Ingresos vs Gastos (Barras)
+        var ctx = document.getElementById('chartGastosVsIngresos').getContext('2d');
+        var chartGastosVsIngresos = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ingresos Reales', 'Gastos Reales'],
+                datasets: [{
+                    label: 'Monto en el Mes',
+                    data: [@Model.TotalIngresos, @Model.TotalGastos],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Gráfico de Gastos por Categoría (Pastel)
+        var ctx2 = document.getElementById('chartGastosPorCategoria').getContext('2d');
+        var categorias = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GastosPorCategoria.Keys));
+        var montos = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GastosPorCategoria.Values));
+        var chartGastosPorCategoria = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: categorias,
+                datasets: [{
+                    data: montos,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+}

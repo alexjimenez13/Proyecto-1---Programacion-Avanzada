@@ -120,16 +120,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MetasController.cs" />
-    <Compile Include="Controllers\PresupuestosController.cs" />
+    <Compile Include="Controllers\PresupuestoController.cs" />
     <Compile Include="Controllers\TransaccionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AbonoMeta.cs" />
     <Compile Include="Models\Categoria.cs" />
-    <Compile Include="Models\MetaFinanciera.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\PresupuestoMensual.cs" />
     <Compile Include="Models\Transaccion.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -192,10 +193,12 @@
     <Content Include="Views\Shared\_LayoutIngreso.cshtml" />
     <Content Include="Views\Transaccion\Transacciones.cshtml" />
     <Content Include="Views\Transaccion\VerTransacciones.cshtml" />
-    <Content Include="Views\Presupuestos\Crear.cshtml" />
-    <Content Include="Views\Presupuestos\Listar.cshtml" />
-    <Content Include="Views\Metas\Crear.cshtml" />
-    <Content Include="Views\Metas\Listar.cshtml" />
+    <Content Include="Views\Presupuesto\Presupuesto.cshtml" />
+    <Content Include="Views\Presupuesto\RegistrarMeta.cshtml" />
+    <Content Include="Views\Presupuesto\VerMetas.cshtml" />
+    <Content Include="Views\Presupuesto\Comparar.cshtml" />
+    <Content Include="Views\Presupuesto\RegistrarAbono.cshtml" />
+    <Content Include="Views\Dashboard\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

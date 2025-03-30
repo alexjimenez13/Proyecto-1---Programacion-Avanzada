@@ -1,0 +1,40 @@
+﻿@model Proyecto.Models.Presupuesto
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Comparación de Presupuesto";
+}
+
+<div class="container mt-4">
+    <h2>Comparación del Presupuesto para @ViewBag.Mes/@ViewBag.Año</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>Concepto</th>
+            <th>Presupuestado</th>
+            <th>Real (Transacciones)</th>
+            <th>Diferencia</th>
+        </tr>
+        <tr>
+            <td>Ingresos</td>
+            <td>@Model.MONTO_INGRESOS</td>
+            <td>
+                @{
+                    decimal sumaIngresos = Model.MONTO_INGRESOS - (decimal)ViewBag.DiferenciaIngresos;
+                    @sumaIngresos;
+                }
+            </td>
+            <td>@ViewBag.DiferenciaIngresos</td>
+        </tr>
+        <tr>
+            <td>Gastos</td>
+            <td>@Model.MONTO_GASTOS</td>
+            <td>
+                @{
+                    decimal sumaGastos = Model.MONTO_GASTOS - (decimal)ViewBag.DiferenciaGastos;
+                    @sumaGastos;
+                }
+            </td>
+            <td>@ViewBag.DiferenciaGastos</td>
+        </tr>
+    </table>
+</div>

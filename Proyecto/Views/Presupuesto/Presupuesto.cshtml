@@ -1,0 +1,91 @@
+﻿@model Proyecto.Models.PresupuestoViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Presupuesto y Metas Financieras";
+}
+
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="card-title">Crear presupuesto</h5>
+        </div>
+        <div class="card-body">
+
+            @using (Html.BeginForm("Actualizar", "Presupuesto", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Presupuesto.MES, "Mes", new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Presupuesto.MES, new { @class = "form-control", type = "number", min = "1", max = "12", required = "required" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Presupuesto.AÑO, "Año", new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Presupuesto.AÑO, new { @class = "form-control", type = "number", required = "required" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Presupuesto.MONTO_INGRESOS, "Ingresos", new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Presupuesto.MONTO_INGRESOS, new { @class = "form-control", type = "number", step = "0.01", required = "required" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Presupuesto.MONTO_GASTOS, "Gastos", new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Presupuesto.MONTO_GASTOS, new { @class = "form-control", type = "number", step = "0.01", required = "required" })
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <button type="submit" class="btn btn-success w-100">Actualizar presupuesto mensual</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-warning mt-4">
+            No hay datos de presupuesto disponibles.
+        </div>
+    }
+    else
+    {
+        <div class="card mt-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title">Mis presupuestos</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mes</th>
+                            <th>Año</th>
+                            <th>Ingresos</th>
+                            <th>Gastos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.PresupuestosHistoricos == null || !Model.PresupuestosHistoricos.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center">No hay presupuestos registrados.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var p in Model.PresupuestosHistoricos)
+                            {
+                                var diferencia = p.MONTO_INGRESOS - p.MONTO_GASTOS;
+                                bool metaCumplida = (diferencia > 0);
+                                <tr>
+                                    <td>@p.MES</td>
+                                    <td>@p.AÑO</td>
+                                    <td>@p.MONTO_INGRESOS</td>
+                                    <td>@p.MONTO_GASTOS</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
